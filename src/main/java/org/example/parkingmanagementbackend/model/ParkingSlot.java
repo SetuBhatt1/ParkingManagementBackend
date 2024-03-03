@@ -1,4 +1,4 @@
-package org.example.parkingmanagementbackend.entities;
+package org.example.parkingmanagementbackend.model;
 
 import jakarta.persistence.*;
 
