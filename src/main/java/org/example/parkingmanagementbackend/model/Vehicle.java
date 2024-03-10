@@ -11,10 +11,10 @@ import java.util.Date;
 public class Vehicle {
     // vehicle -> unique id + vehicle number + entry time + exit time + floor no (fk) + slot no (fk)
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "vehicle_id")
-//    private Long id;
+    //    @Id
+    //    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //    @Column(name = "vehicle_id")
+    //    private Long id;
 
     @Id
     @Column(name = "vehicle_issued_number")
