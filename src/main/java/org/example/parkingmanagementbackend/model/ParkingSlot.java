@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Parking_Slot")
 public class ParkingSlot {
-    //Slot -> unique id + slot number + floorId (fk)
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "slot_id")
@@ -15,9 +13,12 @@ public class ParkingSlot {
     @Column(name = "slot_number")
     private int slotNumber;
 
+    @Column(name = "slot_status")
+    private String status;
+
     @ManyToOne
-    @JoinColumn(name = "floor_slot", nullable = false)
-    private Floor floorId;
+    @JoinColumn(name = "floor_id", nullable = false)
+    private Floor floor;
 
     public int getSlotNumber() {
         return slotNumber;
@@ -27,13 +28,31 @@ public class ParkingSlot {
         this.slotNumber = slotNumber;
     }
 
-    public Floor getFloorId() {
-        return floorId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setFloorId(Floor floorId) {
-        this.floorId = floorId;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    @OneToOne(mappedBy = "slot")
+    private Vehicle vehicle;
 
 }

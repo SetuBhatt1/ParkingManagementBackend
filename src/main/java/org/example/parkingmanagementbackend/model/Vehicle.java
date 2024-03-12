@@ -9,15 +9,8 @@ import java.util.Date;
 @Entity
 @Table(name = "Parking_Vehicle")
 public class Vehicle {
-    // vehicle -> unique id + vehicle number + entry time + exit time + floor no (fk) + slot no (fk)
-
-    //    @Id
-    //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //    @Column(name = "vehicle_id")
-    //    private Long id;
-
     @Id
-    @Column(name = "vehicle_issued_number")
+    @Column(name = "vehicle_number")
     private String vehicleNumber;
 
     @CreationTimestamp
@@ -28,9 +21,9 @@ public class Vehicle {
     @Column(name = "exit_time")
     private Date exitTime;
 
-//    @OneToOne
-//    @JoinColumn(name = "slot_vehicle")
-//    private ParkingSlot slotId;
+    @OneToOne
+    @JoinColumn(name = "slot_id") // Corrected column name
+    private ParkingSlot slot;
 
     public String getVehicleNumber() {
         return vehicleNumber;
@@ -56,13 +49,24 @@ public class Vehicle {
         this.exitTime = exitTime;
     }
 
-//    public ParkingSlot getSlotId() {
-//        return slotId;
-//    }
-//
-//    public void setSlotId(ParkingSlot slotId) {
-//        this.slotId = slotId;
-//    }
-//
+    public ParkingSlot getSlot() {
+        return slot;
+    }
+
+    public void setSlot(ParkingSlot slot) {
+        this.slot = slot;
+    }
+
+    public Floor getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Floor floor) {
+        this.floor = floor;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "floor_id") // Corrected column name
+    private Floor floor;
 
 }

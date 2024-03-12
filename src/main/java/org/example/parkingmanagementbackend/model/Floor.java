@@ -5,15 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Parking_Floor")
 public class Floor {
-    // Floor -> unique id + floor number
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "floor_id", nullable = false)
-    private Long id;
-
-    @Column(name = "floor_number", nullable = false)
-    private int floorNumber;
+    private int floorId;
 
     public int getFloorNumber() {
         return floorNumber;
@@ -22,5 +17,8 @@ public class Floor {
     public void setFloorNumber(int floorNumber) {
         this.floorNumber = floorNumber;
     }
+
+    @Column(name = "floor_number", nullable = false)
+    private int floorNumber;
 
 }
