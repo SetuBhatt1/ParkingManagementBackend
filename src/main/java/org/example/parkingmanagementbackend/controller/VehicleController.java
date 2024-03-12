@@ -3,6 +3,7 @@ package org.example.parkingmanagementbackend.controller;
 import org.example.parkingmanagementbackend.model.Vehicle;
 import org.example.parkingmanagementbackend.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,8 +41,15 @@ public class VehicleController {
             return ResponseEntity.ok(vehicles);
         }
     }
+
+    @GetMapping("/vehicles/sort")
+    public List<Vehicle> sortVehicle(@RequestParam String sortBy) {
+        // return vehicleRepository.findAll(Sort.by(Sort.Direction.ASC,"vehicleNumber"));
+        return vehicleRepository.findAll(Sort.by(sortBy));
+    }
+
     @DeleteMapping("/vehicles/{vehicleNumber}")
-    public void removeVehicle(@PathVariable("vehicleNumber") String vehicleNumber ) {
+    public void removeVehicle(@PathVariable("vehicleNumber") String vehicleNumber) {
         // https://f6a2-150-129-170-239.ngrok-free.app/vehicle/read
         vehicleRepository.deleteById(vehicleNumber);
     }
@@ -60,7 +68,6 @@ public class VehicleController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 
 }
