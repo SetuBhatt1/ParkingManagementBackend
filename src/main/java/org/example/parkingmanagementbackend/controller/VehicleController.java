@@ -31,6 +31,15 @@ public class VehicleController {
         return vehicleRepository.findAll();
     }
 
+    @GetMapping("/vehicles/search")
+    public ResponseEntity<List<Vehicle>> searchVehicles(@RequestParam String vehicleNumber) {
+        List<Vehicle> vehicles = vehicleRepository.findByVehicleNumber(vehicleNumber);
+        if (vehicles.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(vehicles);
+        }
+    }
     @DeleteMapping("/vehicles/{vehicleNumber}")
     public void removeVehicle(@PathVariable("vehicleNumber") String vehicleNumber ) {
         // https://f6a2-150-129-170-239.ngrok-free.app/vehicle/read

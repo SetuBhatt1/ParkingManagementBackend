@@ -13,4 +13,6 @@ public interface VehicleService {
     Optional<Vehicle> getVehicleByNumber(String vehicleNumber);
 
     void deleteVehicleByNumber(String vehicleNumber);
+
+//    List<Vehicle> findByCarNumber(String carNumber);
 }

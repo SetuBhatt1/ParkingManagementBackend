@@ -37,4 +37,13 @@ public class VehicleServiceImpl implements VehicleService {
     public void deleteVehicleByNumber(String vehicleNumber) {
         vehicleRepository.deleteById(vehicleNumber);
     }
+
+//    @Override
+//    public List<Vehicle> findByCarNumber(String carNumber) {
+//        List<Vehicle> result = null;
+//        if (carNumber != null) {
+//            return vehicleRepository.findByCarNumber(carNumber);
+//        }
+//        return result;
+//    }
 }
