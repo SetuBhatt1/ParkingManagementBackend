@@ -21,7 +21,7 @@ public class Vehicle {
     @Column(name = "exit_time")
     private Date exitTime;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "slot_id") // Corrected column name
     private ParkingSlot slot;
 
@@ -65,7 +65,7 @@ public class Vehicle {
         this.floor = floor;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id") // Corrected column name
     private Floor floor;
 

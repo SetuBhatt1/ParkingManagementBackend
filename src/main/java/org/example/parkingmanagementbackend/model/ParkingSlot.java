@@ -1,5 +1,6 @@
 package org.example.parkingmanagementbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +17,7 @@ public class ParkingSlot {
     @Column(name = "slot_status")
     private String status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
@@ -52,6 +53,7 @@ public class ParkingSlot {
         this.vehicle = vehicle;
     }
 
+    @JsonIgnore
     @OneToOne(mappedBy = "slot")
     private Vehicle vehicle;
 
