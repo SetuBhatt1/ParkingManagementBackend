@@ -1,6 +1,8 @@
 package org.example.parkingmanagementbackend.controller;
 
+import org.example.parkingmanagementbackend.model.PermanentVehicle;
 import org.example.parkingmanagementbackend.model.Vehicle;
+import org.example.parkingmanagementbackend.repository.PermanentVehicleRepository;
 import org.example.parkingmanagementbackend.repository.VehicleRepository;
 import org.example.parkingmanagementbackend.service.FirebaseAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class VehicleController {
 
     @Autowired
     private FirebaseAuthService firebaseAuthService;
+
+    @Autowired
+    private PermanentVehicleRepository permanentVehicleRepository;
 
 
     @PostMapping("/vehicles")
@@ -72,16 +77,53 @@ public class VehicleController {
         }
     }
 
+//    @DeleteMapping("/vehicles/{vehicleNumber}")
+//    public ResponseEntity<Void> removeVehicle(@RequestHeader("Authorization") String idToken, @PathVariable("vehicleNumber") String vehicleNumber) {
+//        try {
+//            firebaseAuthService.verifyIdToken(idToken.replace("Bearer ", ""));
+//            vehicleRepository.deleteById(vehicleNumber);
+//            return ResponseEntity.noContent().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//        }
+//    }
+
     @DeleteMapping("/vehicles/{vehicleNumber}")
     public ResponseEntity<Void> removeVehicle(@RequestHeader("Authorization") String idToken, @PathVariable("vehicleNumber") String vehicleNumber) {
         try {
             firebaseAuthService.verifyIdToken(idToken.replace("Bearer ", ""));
-            vehicleRepository.deleteById(vehicleNumber);
-            return ResponseEntity.noContent().build();
+            Optional<Vehicle> optionalVehicle = vehicleRepository.findById(vehicleNumber);
+
+            if (optionalVehicle.isPresent()) {
+                Vehicle vehicle = optionalVehicle.get();
+                // Update the exit time of the vehicle
+                vehicle.setExitTime(new Date());
+                // Save the updated vehicle to the database
+                vehicleRepository.save(vehicle);
+
+                // Create a new PermanentVehicle instance and copy data from the Vehicle
+                PermanentVehicle permanentVehicle = new PermanentVehicle();
+                // Copy fields from vehicle to permanentVehicle
+                permanentVehicle.setVehicleNumber(vehicle.getVehicleNumber());
+                permanentVehicle.setEntryTime(vehicle.getEntryTime());
+                permanentVehicle.setExitTime(vehicle.getExitTime());
+                permanentVehicle.setSlot(vehicle.getSlot());
+                permanentVehicle.setFloor(vehicle.getFloor());
+
+                // Save the PermanentVehicle instance
+                permanentVehicleRepository.save(permanentVehicle);
+
+                // Delete the Vehicle instance
+                vehicleRepository.deleteById(vehicleNumber);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
 
     @PatchMapping("/vehicles/{vehicleNumber}")
     public ResponseEntity<Vehicle> updateVehicle(@RequestHeader("Authorization") String idToken, @PathVariable("vehicleNumber") String vehicleNumber) {
