@@ -88,6 +88,9 @@ public class VehicleController {
 //        }
 //    }
 
+
+
+
     @DeleteMapping("/vehicles/{vehicleNumber}")
     public ResponseEntity<Void> removeVehicle(@RequestHeader("Authorization") String idToken, @PathVariable("vehicleNumber") String vehicleNumber) {
         try {
@@ -103,10 +106,10 @@ public class VehicleController {
 
                 // Create a new PermanentVehicle instance and copy data from the Vehicle
                 PermanentVehicle permanentVehicle = new PermanentVehicle();
-                // Copy fields from vehicle to permanentVehicle
+                // Explicitly set the entryTime to ensure it's copied over correctly
+                permanentVehicle.setEntryTime(vehicle.getEntryTime()); // This line ensures the entryTime is copied over
+//                permanentVehicle.setExitTime(vehicle.getExitTime()); // This line ensures the exitTime is updated
                 permanentVehicle.setVehicleNumber(vehicle.getVehicleNumber());
-                permanentVehicle.setEntryTime(vehicle.getEntryTime());
-                permanentVehicle.setExitTime(vehicle.getExitTime());
                 permanentVehicle.setSlot(vehicle.getSlot());
                 permanentVehicle.setFloor(vehicle.getFloor());
 

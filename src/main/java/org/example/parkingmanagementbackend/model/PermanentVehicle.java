@@ -1,7 +1,6 @@
 package org.example.parkingmanagementbackend.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -14,7 +13,7 @@ public class PermanentVehicle {
     @Column(name = "vehicle_number")
     private String vehicleNumber;
 
-    @CreationTimestamp
+//    @CreationTimestamp
     @Column(name = "entry_time")
     private Date entryTime;
 
